@@ -48,8 +48,6 @@ async def get_flight(flight_id: str, service: FlightService = Depends(_service))
 
 
 @router.post("/", response_model=FlightWithAlerts, status_code=status.HTTP_201_CREATED)
-async def create_flight(
-    data: FlightCreate, service: FlightService = Depends(_service)
-):
+async def create_flight(data: FlightCreate, service: FlightService = Depends(_service)):
     flight = await service.create_flight(data)
     return _with_alerts(flight, service)
