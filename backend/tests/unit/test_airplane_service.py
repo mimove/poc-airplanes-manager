@@ -2,14 +2,10 @@ from datetime import date, timedelta
 from unittest.mock import AsyncMock
 
 import pytest
-from sqlalchemy import inspect as sa_inspect
-from sqlalchemy.orm.state import InstanceState
 
 from app.models.airplane import Airplane
 from app.schemas.airplane import AirplaneCreate
 from app.services.airplane import AirplaneService
-
-_airplane_mapper = sa_inspect(Airplane)
 
 
 def make_airplane(**kwargs) -> Airplane:
@@ -25,12 +21,7 @@ def make_airplane(**kwargs) -> Airplane:
         fuel_capacity=700,
     )
     defaults.update(kwargs)
-    a = Airplane.__new__(Airplane)
-    state = InstanceState(a, _airplane_mapper)
-    a.__dict__["_sa_instance_state"] = state
-    for k, v in defaults.items():
-        setattr(a, k, v)
-    return a
+    return Airplane(**defaults)
 
 
 @pytest.fixture
