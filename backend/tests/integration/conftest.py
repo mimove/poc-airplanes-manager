@@ -28,9 +28,20 @@ def db_url(pg_container) -> str:
 def create_tables(db_url: str):
     async def _create():
         engine = create_async_engine(db_url)
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+        last_error: Exception | None = None
+        for attempt in range(10):
+            try:
+                async with engine.begin() as conn:
+                    await conn.run_sync(Base.metadata.create_all)
+                await engine.dispose()
+                return
+            except Exception as exc:
+                last_error = exc
+                await asyncio.sleep(1.0 + attempt * 0.5)
         await engine.dispose()
+        raise RuntimeError(
+            f"Could not connect to DB after 10 attempts: {last_error}"
+        ) from last_error
 
     asyncio.run(_create())
 
