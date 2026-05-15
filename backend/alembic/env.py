@@ -5,9 +5,16 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 from alembic import context
 from app.core.config import get_settings
-from app.models.base import Base
+
 # Import all models so Alembic detects table metadata
-from app.models import hangar, airplane, flight, passenger, flight_passenger  # noqa: F401
+from app.models import (  # noqa: F401
+    airplane,
+    flight,
+    flight_passenger,
+    hangar,
+    passenger,
+)
+from app.models.base import Base
 
 config = context.config
 if config.config_file_name is not None:

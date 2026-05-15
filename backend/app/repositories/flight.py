@@ -35,5 +35,12 @@ class FlightRepository:
         for fp in passengers:
             self.session.add(fp)
         await self.session.commit()
-        await self.session.refresh(flight)
-        return flight
+        result = await self.session.execute(
+            select(Flight)
+            .where(Flight.flight_id == flight.flight_id)
+            .options(
+                selectinload(Flight.airplane),
+                selectinload(Flight.flight_passengers),
+            )
+        )
+        return result.scalar_one()

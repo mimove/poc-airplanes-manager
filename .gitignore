@@ -1,3 +1,4 @@
+# Python
 backend/.env
 __pycache__/
 *.pyc
@@ -9,4 +10,11 @@ __pycache__/
 htmlcov/
 dist/
 *.egg-info/
+
+# Node
+node_modules/
+frontend/.env
+frontend/.env.local
+
+# OS
 .DS_Store

@@ -30,9 +30,7 @@ async def get_passenger(
     return passenger
 
 
-@router.post(
-    "/", response_model=PassengerResponse, status_code=status.HTTP_201_CREATED
-)
+@router.post("/", response_model=PassengerResponse, status_code=status.HTTP_201_CREATED)
 async def create_passenger(
     data: PassengerCreate, service: PassengerService = Depends(_service)
 ):

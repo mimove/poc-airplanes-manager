@@ -28,9 +28,7 @@ async def list_airplanes(service: AirplaneService = Depends(_service)):
 
 
 @router.get("/{plate_number}", response_model=AirplaneWithAlerts)
-async def get_airplane(
-    plate_number: str, service: AirplaneService = Depends(_service)
-):
+async def get_airplane(plate_number: str, service: AirplaneService = Depends(_service)):
     airplane = await service.get_airplane(plate_number)
     if airplane is None:
         raise HTTPException(
