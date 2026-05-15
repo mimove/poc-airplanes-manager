@@ -57,7 +57,7 @@ export default function FlightsPage() {
       await api.flights.create({
         ...form,
         occupied_seats: parseInt(form.occupied_seats, 10),
-        fuel_consumption: parseInt(form.fuel_consumption, 10),
+        fuel_consumption: parseFloat(form.fuel_consumption),
         departure_time: form.departure_time + ":00Z",
         arrival_time: form.arrival_time + ":00Z",
       });
