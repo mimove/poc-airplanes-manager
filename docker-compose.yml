@@ -21,10 +21,17 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql+asyncpg://airplanes:airplanes@postgres:5432/airplanes_db
-      ALLOWED_ORIGINS: '["http://localhost:5173","http://localhost:3000"]'
+      ALLOWED_ORIGINS: '["http://localhost:5173","http://localhost:3000","http://localhost:80","http://localhost"]'
     depends_on:
       postgres:
         condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
